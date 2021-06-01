@@ -1,0 +1,4 @@
+snippets of OCaml demonstrating the semantics that hazel modules
+should adhere to
+written in OCaml as hazel syntax is not decided yet and SML doesn't
+seem to respect type abstraction? (tested w/ MLton, Poly/ML, SML/NJ)
