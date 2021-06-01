@@ -36,7 +36,9 @@ module M : M =
 
 (* fails w/ "expected expr of type `M'.t` but got `M''.t`"
 - module M' : M' with type t = M.t = M
++ module M' : M' = M.t = M
 - module M'' : M'' with type t = M.t = M
++ module M'' : M'' = M.t = M
 
 let _ = M'.f (M''.g 10)
              ^^^^^^^^^^
