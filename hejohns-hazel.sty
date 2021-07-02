@@ -1,110 +1,29 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% standard header
-    \documentclass[12pt,fleqn]{article}
-    \usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
-    \usepackage[utf8x]{inputenc}
-    \usepackage{titlesec} % see below
-    \usepackage{xcolor} % \color \textcolor
-    \usepackage{hyperref} % \href
-    \usepackage[normalem]{ulem} % normalem retains \emph as italic
-    % \uline \uuline \uwave \sout
-    \usepackage{enumitem}
-    % \begin{enumerate}[label=\Alpha*.]
-    % \begin{enumerate}[label=\(\bullet\)]
-    \usepackage{graphicx}
-    % \includegraphicswidth=0.5\textwidth,trim=[0cm 0cm 0cm 0cm,clip]{file.png}
-    \usepackage{pdfpages} % \includepdf[pages=1]{file.pdf}
-    % for prose
-    %\usepackage[doublespacing]{setspace}
-    \usepackage{csquotes} % \blockquote
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \renewcommand{\rmdefault}{cmr}
-    \renewcommand{\sfdefault}{cmss}
-    \renewcommand{\ttdefault}{cmtt}
-    \renewcommand{\familydefault}{\rmdefault}
-    \setlength{\titlewidth}{\textwidth}
-
-    \titlespacing{\section}{0pt}{0pt}{0pt}
-    \titlespacing{\subsection}{0pt}{0pt}{0pt}
-    \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
-    \titlespacing{\paragraph}{0pt}{0pt}{0pt}
-    % https://www.overleaf.com/learn/latex/How_to_write_a_LaTeX_class_file_and_design_your_own_CV_(Part_1)
-    % \titleformat{command}[shape]{format}{label}{sep}{before-code}[after-code]
-    \titleformat{\section}         % Customise the \section command 
-        [hang]
-        {\Large\ttfamily\raggedright} % Make the \section headers large (\Large),
-                                   % small capitals (\scshape) and left aligned (\raggedright)
-        {}{0em}                      % Can be used to give a prefix to all sections, like 'Section ...'
-        {}                           % Can be used to insert code before the heading
-        [\titlerule]                 % Inserts a horizontal line after the heading
-    \titleformat{\subsection}
-        [hang]
-        {\large\ttfamily\raggedright}
-        {}{0em}
-        {}
-        []
+\ProvidesPackage{hejohns-hazel}[2021/07/02 - for phis]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % packages
-    \usepackage{mathpartir}
-    \usepackage{latexsym}
-    \usepackage{stmaryrd}
-    \usepackage{amssymb}
-    \usepackage{thmtools}
-    \usepackage{tikz}
+    \RequirePackage{hejohns-colors}
+    \RequirePackage{mathpartir}
+    \RequirePackage{latexsym}
+    \RequirePackage{stmaryrd}
+    \RequirePackage{amssymb}
+    \RequirePackage{thmtools}
+    \RequirePackage{tikz}
     % https://tex.stackexchange.com/questions/12678/squiggly-arrows-in-tikz
     \usetikzlibrary{decorations.pathmorphing}
     \usetikzlibrary{arrows.meta}
     % https://tex.stackexchange.com/questions/317121/automatically-adding-page-breaks-into-long-array-environments
-    \usepackage{array}
-    \usepackage{longtable}
+    \RequirePackage{array}
+    \RequirePackage{longtable}
     \newcolumntype{L}{>{\(}l<{\)}}
     \newcolumntype{C}{>{\(}c<{\)}}
     \newcolumntype{R}{>{\(}r<{\)}}
     \setlength\tabcolsep{5pt}
     % https://tex.stackexchange.com/questions/29973/more-than-one-optional-argument-for-newcommand
-    \usepackage{xparse}
+    \RequirePackage{xparse}
 
     %% Joshua Dunfield macros
     \def\OPTIONConf{1}%
-    \usepackage{joshuadunfield}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% color defs
-    \definecolor{red}{HTML}{800000}
-    \definecolor{green}{HTML}{008000}
-    \definecolor{blue}{HTML}{000080}
-    \definecolor{orange}{HTML}{D08000}
-    \definecolor{purple}{HTML}{800080}
-    \definecolor{teal}{HTML}{008080}
-    \definecolor{black}{HTML}{000000}
-    \definecolor{grey}{HTML}{808080}
-    \newcommand{\red}[1]{\textcolor{red}{#1}}
-    \newcommand{\green}[1]{\textcolor{green}{#1}}
-    \newcommand{\blue}[1]{\textcolor{blue}{#1}}
-    \newcommand{\orange}[1]{\textcolor{orange}{#1}}
-    \newcommand{\purple}[1]{\textcolor{purple}{#1}}
-    \newcommand{\teal}[1]{\textcolor{teal}{#1}}
-    \newcommand{\black}[1]{\textcolor{black}{#1}}
-    \newcommand{\grey}[1]{\textcolor{grey}{#1}}
-    \newcommand*{\blackrm}[1]{\black{\mathtt{#1}}}
-    \newcommand{\redtt}[1]{\red{\mathtt{#1}}}
-    \newcommand{\greentt}[1]{\green{\mathtt{#1}}}
-    \newcommand{\bluett}[1]{\blue{\mathtt{#1}}}
-    \newcommand{\orangett}[1]{\orange{\mathtt{#1}}}
-    \newcommand{\purplett}[1]{\purple{\mathtt{#1}}}
-    \newcommand{\tealtt}[1]{\teal{\mathtt{#1}}}
-    \newcommand{\blacktt}[1]{\black{\mathtt{#1}}}
-    \newcommand{\greytt}[1]{\grey{\mathtt{#1}}}
-    \newcommand{\redit}[1]{\red{\mathit{#1}}}
-    \newcommand{\greenit}[1]{\green{\mathit{#1}}}
-    \newcommand{\blueit}[1]{\blue{\mathit{#1}}}
-    \newcommand{\orangeit}[1]{\orange{\mathit{#1}}}
-    \newcommand{\purpleit}[1]{\purple{\mathit{#1}}}
-    \newcommand{\tealit}[1]{\teal{\mathit{#1}}}
-    \newcommand{\blackit}[1]{\black{\mathit{#1}}}
-    \newcommand{\greyit}[1]{\grey{\mathit{#1}}}
-    % traditional hazel hole color
-    \newcommand{\violettt}[1]{\textcolor{violet}{\mathtt{#1}}}
-    \newcommand{\violetit}[1]{\textcolor{violet}{\mathit{#1}}}
+    \RequirePackage{joshuadunfield}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % syntax
     \newcommand{\knd}[1][]{\redit{\kappa#1}}
@@ -250,32 +169,4 @@
         \newcommand{\SynElab}[5]{#1 \vdash #2~\Rightarrow~#3 \rightsquigarrow #4 \dashv #5}
         \newcommand{\AnaElab}[5]{#1 \vdash #2~\Leftarrow~#3 \rightsquigarrow #4 \dashv #5}
         \newcommand*{\ElabDegenerate}[4]{#1 \vdash #2 \rightsquigarrow #3 \dashv #4}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get rid of 10-modules stuff
-    \renewcommand*{\TypVarCtx}{\Phi}
-    \renewcommand*{\ModVarCtx}{}
-    \renewcommand*{\SigVarCtx}{}
-\pagenumbering{gobble}
-\nonfrenchspacing
-%\frenchspacing % when monospaced
-\begin{document}
-\title{Hazel MetaPhi: 9-type-aliases}
-\author{}
-\date{\today}
-\maketitle
-\section{introduction}
-    \subsection*{}
-    f
-\section{Issues}
-    \subsection*{}
-    \begin{enumerate}[label=Issue \arabic*:]
-        \item Algorithmic rules are not actually algorithmic \\
-        Since we are going all out to Do It Right™, it should be noted that the declarative/algorithmic bifurcation is not complete with $\KndAsc$ ($\WellFormedAtKind{\typ}{\knd}$).
-        For example, \texttt{KAASubsume} (subsumption in kind analysis) is premissed on $\ConsistentSubkindOp$ ($\ConsistentSubkind{\knd[_1]}{\knd[_2]}$),
-        which is itself premissed on $\TypeEquivOp$
-        \item test
-    \end{enumerate}
-\newpage
-    \includepdf[scale=0.9,pages=1,pagecommand={\section{Attachments}\subsection*{9-type-aliases marked up with preliminary declarative statics notes}Attachment 1}, offset=0 -2cm]{kind_judgements_statics.pdf}
-    \includepdf[scale=0.9,pages=2-,pagecommand={Attachment 1}]{kind_judgements_statics.pdf}
-\end{document}
+\endinput
