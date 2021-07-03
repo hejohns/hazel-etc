@@ -73,9 +73,13 @@
 \author{}
 \date{\today}
 \maketitle
-\section{introduction}
+\section{How to read}
     \subsection*{}
-    f
+    \begin{tabular}{rl}
+        \red{800000} & \red{kinds} \\
+        \green{008000} & \green{types (constructors)} \\
+        \blue{000080} & \blue{terms} \\
+    \end{tabular}
 \section{Issues}
     \subsection*{}
     \begin{enumerate}[label=Issue \arabic*:]
@@ -98,7 +102,7 @@
             So the logical conclusion is higher order singletons.
             Thankfully, Stone and Harper showed that HOSingletons are definable in terms of ``vanilla" singletons.
             Thus, we do not need to add HOSingletons to the object language itself-- only to the metalangauge.
-            HOSingletons should make the metatheory proofs more general.
+            HOSingletons should make the metatheory proofs more general, even without considering type constructors.
             The question is how HOSingletons and holes should interact.
     \end{enumerate}
 \section{Not Issues-- but worth mentioning}
