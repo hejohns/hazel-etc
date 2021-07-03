@@ -61,8 +61,8 @@
     \newcommand*{\AlgTypeEquivOp}{%
         \begin{tikzpicture}[scale=0.5, baseline=-1.2mm, thick]
         \node(equiv) at (0, 0){$\equiv$};
-        \node(lb) at (-5mm, 0){$<$};
-        \node(rb) at (5mm, 0){$>$};
+        \node(lb) at (-5mm, .1mm){$<$};
+        \node(rb) at (5mm, .1mm){$>$};
         \end{tikzpicture}%
     }
 \pagenumbering{gobble}
@@ -82,7 +82,7 @@
         \item Algorithmic rules are not ``officially" algorithmic \\
             Since we are going all out to Do It Right™, it should be noted that the declarative/algorithmic bifurcation is not complete with $\KndAsc$ ($\WellFormedAtKind{\typ}$). \\
             For example, kind analysis is premissed on $\ConsistentSubKindOp$ ($\ConsistentSubKind{\knd[_1]}{\knd[_2]}$) at \texttt{KAASubsume},
-            which is itself premissed on $\TypeEquivOp$ ($\TypeEquiv{\typ[_1]}{\typ[_2]}$) at \texttt{KCRespectEquiv},
+            which is itself premissed on $\TypeEquivOp$ ($\TypeEquiv{\typ[_1]}{\typ[_2]}[]$) at \texttt{KCRespectEquiv},
             which is itself premissed on $\KndAsc$ ($\WellFormedAtKind{\typ}$) at \texttt{KCESingEquiv}. \\
             Explicitly algorithmic counterparts to $\ConsistentSubKindOp$ and $\TypeEquivOp$ need to be defined.
             Suggested notation: $\AlgConsistentSubKindOp$ and $\AlgTypeEquivOp$ (faintly reminiscent of Stone and Harper).
@@ -90,7 +90,7 @@
 \section{Not Issues-- but worth mentioning}
     \subsection*{}
     \begin{enumerate}[label=Nibwm \arabic*:]
-        \item In the presence of higher order types/type constructors, type equivalence depends on the kind at which the types are compared if extensionality is desired \\
+        \item In the presence of higher order types/type constructors, there exists a more nuanced notion of type equivalence (extensionality) in which equivalence depends on the kind at which the types are compared \\
             Without ``real" subkinding, examples are a bit more contrived. \\
             From Stone and Harper (2006): \\
             \[
@@ -115,7 +115,8 @@
             \[
                 \TypeEquiv[]{\bluett{\lambda x\TypAsc Int.if~x \ge 0~then~x~else~2*x}}{\bluett{\lambda x\TypAsc Int.x}}[\greentt{Int \rightarrow Int}]
             \]
-            should not.
+            should not. \\
+            I do not believe this more nuanced view of equality buys anything for us.
     \end{enumerate}
 \newpage
     \includepdf[scale=0.9,pages=1,pagecommand={\section{Attachments}\subsection*{9-type-aliases marked up with preliminary declarative statics notes}Attachment 1}, offset=0 -2cm]{kind_judgements_statics.pdf}
