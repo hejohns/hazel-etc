@@ -86,6 +86,20 @@
             which is itself premissed on $\KndAsc$ ($\WellFormedAtKind{\typ}$) at \texttt{KCESingEquiv}. \\
             Explicitly algorithmic counterparts to $\ConsistentSubKindOp$ and $\TypeEquivOp$ need to be defined.
             Suggested notation: $\AlgConsistentSubKindOp$ and $\AlgTypeEquivOp$ (faintly reminiscent of Stone and Harper).
+        \item A $\typvar\KndAssump\knd\in\TypVarCtx \implies \typvar\KndAsc\SKind{\typvar}$ (like) rule is problematic \\
+            When $\forall \typ.\WellFormedAtKind{\typ}\implies \WellFormedAtKind{\typ}[\Type]$, as is now,
+            this is fine (except for improperly (non)contexted holes $\forall \typ.\WellFormedAtKind[]{\typ}[\Type]$ I would think).
+            But in the presence of non$\Type$ kinds, this rule no longer conveys the correct meaning (intuitively speaking).
+            For example, if we redefined $\greentt{list(\typ)}$ to be a type constructor proper instead of a builtin type schema,
+            such that $\WellFormedAtKind[]{\greentt{list}}[\Type \red{\rightarrow} \Type]$,
+            and had nonstifled type aliases such that $\typvar\KndAssump\greentt{list}$, $\SKind{\typvar}$ certainly does not mean what we want
+            (I say nonstifled since we could technically skirt this issue by demanding type alias definitions to be a $\Type$,
+            but that would clearly be stifling-- and no langauge does this for obvious reasons). \\
+            So the logical conclusion is higher order singletons.
+            Thankfully, Stone and Harper showed that HOSingletons are definable in terms of ``vanilla" singletons.
+            Thus, we do not need to add HOSingletons to the object language itself-- only to the metalangauge.
+            HOSingletons should make the metatheory proofs more general.
+            The question is how HOSingletons and holes should interact.
     \end{enumerate}
 \section{Not Issues-- but worth mentioning}
     \subsection*{}
