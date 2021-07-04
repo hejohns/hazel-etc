@@ -81,6 +81,14 @@
         \green{008000} & \green{types (constructors)} \\
         \blue{000080} & \blue{terms} \\
     \end{tabular}
+\section{Notes}
+    \subsection*{}
+    I use the terms labeled singletons/HOSingletons interchangebly.
+    If there is a difference, the meaning is lost on me.
+    Labeled singletons are generalized singletons such that instead of ``the kind of types equivalent to the body, which is a $\Type$",
+    it becomes ``the kind of types equivalent to the body, which is some $\knd$".
+    Of course, the difference occurs in the presence of HOTypes/type constructors.
+    Note the connection to Nibwm 1.
 \section{Issues}
     \subsection*{}
     \begin{enumerate}[label=Issue \arabic*:]
@@ -110,8 +118,8 @@
             However as the notation suggests: \\
             $\WellFormedAtKind[\cdot;\green{List}\KndAssump\red{\Type\rightarrow\Type}, \green{T}\KndAssump\SKind[\red{\Type\rightarrow\Type}]{\green{List}} := \red{\DepFunKind{\typvar\KndAnn\Type}{\SKind{\green{List~\typvar}}}}]{\greentt{T}}[\SKind[{\SKind[\red{\Type\rightarrow\Type}]{\green{List}}}]{\greentt{T}}]$ \\
             is expected to be derivable. \\
-            It is not possible to model this behavior without higher order singletons and dependent function kinds.
-            Thankfully, Stone and Harper showed that HOSingletons are definable in terms of ``vanilla" singletons.
+            It is not possible to model this behavior without labeled singletons and dependent function kinds.
+            Thankfully, Stone and Harper showed that labeled singletons are definable in terms of ``vanilla" singletons.
             Thus, we do not need to add HOSingletons to the object language itself-- only to the metalangauge.
             HOSingletons should make the metatheory proofs more general, even without considering type constructors.
             See Attachment 2 for an example.
@@ -149,6 +157,15 @@
             \]
             should not. \\
             I do not believe this more nuanced view of equality buys us anything.
+            Note the connection between equivalence at a kind and labeled singleton kinds.
+            Stone and Harper's rule 42:
+            \begin{mathpar}
+            \inferrule[]{
+                \WellFormedAtKind{\typ[_2]}[\knd] \\
+                \WellFormedAtKind{\typ[_1]}[\SKind[\knd]{\typ[_2]}] \\
+            }
+            {\TypeEquiv{\typ[_1]}{\typ[_2]}[\SKind[\knd]{\typ[_2]}]}
+            \end{mathpar}
     \end{enumerate}
 \newpage
     \includepdf[scale=0.9,pages=1,pagecommand={\section{Attachments}\subsection*{9-type-aliases marked up with preliminary declarative statics notes}Attachment 1}, offset=0 -2cm]{kind_judgements_statics.pdf}
