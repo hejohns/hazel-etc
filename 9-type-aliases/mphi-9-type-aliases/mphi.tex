@@ -65,6 +65,7 @@
         \node(rb) at (5mm, .1mm){$>$};
         \end{tikzpicture}%
     }
+\usepackage{listings}
 \pagenumbering{gobble}
 \nonfrenchspacing
 %\frenchspacing % when monospaced
@@ -90,20 +91,32 @@
             which is itself premissed on $\KndAsc$ ($\WellFormedAtKind{\typ}$) at \texttt{KCESingEquiv}. \\
             Explicitly algorithmic counterparts to $\ConsistentSubKindOp$ and $\TypeEquivOp$ need to be defined.
             Suggested notation: $\AlgConsistentSubKindOp$ and $\AlgTypeEquivOp$ (faintly reminiscent of Stone and Harper).
+            A declarative most specific kind (up to equivalence) would also be useful; \emph{principal kinds} ($\Uparrow$) a la Stone and Harper.
         \item A $\typvar\KndAssump\knd\in\TypVarCtx \implies \typvar\KndAsc\SKind{\typvar}$ (like) rule is problematic \\
             When $\forall \typ.\WellFormedAtKind{\typ}\implies \WellFormedAtKind{\typ}[\Type]$, as is now,
             this is fine (except for improperly (non)contexted holes $\forall \typ.\WellFormedAtKind[]{\typ}[\Type]$ I would think).
-            But in the presence of non$\Type$ kinds, this rule no longer conveys the correct meaning (intuitively speaking).
+            But in the presence of non$\Type$ kinds, this rule no longer conveys the correct meaning (intuitively speaking). \\
             For example, if we redefined $\greentt{list(\typ)}$ to be a type constructor proper instead of a builtin type schema,
-            such that $\WellFormedAtKind[]{\greentt{list}}[\Type \red{\rightarrow} \Type]$,
-            and had nonstifled type aliases such that $\typvar\KndAssump\greentt{list}$, $\SKind{\typvar}$ certainly does not mean what we want
-            (I say nonstifled since we could technically skirt this issue by demanding type alias definitions to be a $\Type$,
-            but that would clearly be stifling-- and no langauge does this for obvious reasons). \\
-            So the logical conclusion is higher order singletons.
+            such that $\WellFormedAtKind[\greentt{List\KndAsc\Type\red{\rightarrow}\Type}\in\TypVarCtx]{\greentt{List}}[\Type \red{\rightarrow} \Type]$,
+            with the following definitions, \\
+            $\mathtt{data~List~\alpha = Nil~|~Cons~\alpha~(List~\alpha)}$ \\
+            $\mathtt{type~T = List}$ \\
+            We would expect the following to be derivable: \\
+            $\TypeEquiv[\cdot;\green{List}\KndAssump\red{\Type\rightarrow\Type}, \green{T}\KndAssump\SKind[\red{\Type\rightarrow\Type}]{\green{List}} := \red{\DepFunKind{\typvar\KndAnn\Type}{\SKind{\green{List~\typvar}}}}]{\greentt{T}}{\greentt{List}}[]$ \\
+            as well as: \\
+            $\TypeEquiv[\cdot;\green{List}\KndAssump\red{\Type\rightarrow\Type}, \green{T}\KndAssump\SKind[\red{\Type\rightarrow\Type}]{\green{List}} := \red{\DepFunKind{\typvar\KndAnn\Type}{\SKind{\green{List~\typvar}}}}, \typvar[_{\alpha}]\KndAssump\Type]{\greentt{T~\typvar[_{\alpha}]}}{\greentt{List~\typvar[_{\alpha}]}}[]$ \\
+            but we would not want: \\
+            $\WellFormedAtKind[\cdot;\green{List}\KndAssump\red{\Type\rightarrow\Type}, \green{T}\KndAssump\SKind[\red{\Type\rightarrow\Type}]{\green{List}} := \red{\DepFunKind{\typvar\KndAnn\Type}{\SKind{\green{List~\typvar}}}}]{\greentt{T}}[\SKind{\greentt{T}}]$ \\
+            However as the notation suggests: \\
+            $\WellFormedAtKind[\cdot;\green{List}\KndAssump\red{\Type\rightarrow\Type}, \green{T}\KndAssump\SKind[\red{\Type\rightarrow\Type}]{\green{List}} := \red{\DepFunKind{\typvar\KndAnn\Type}{\SKind{\green{List~\typvar}}}}]{\greentt{T}}[\SKind[{\SKind[\red{\Type\rightarrow\Type}]{\green{List}}}]{\greentt{T}}]$ \\
+            is expected to be derivable. \\
+            It is not possible to model this behavior without higher order singletons and dependent function kinds.
             Thankfully, Stone and Harper showed that HOSingletons are definable in terms of ``vanilla" singletons.
             Thus, we do not need to add HOSingletons to the object language itself-- only to the metalangauge.
             HOSingletons should make the metatheory proofs more general, even without considering type constructors.
+            See Attachment 2 for an example.
             The question is how HOSingletons and holes should interact.
+            And with type constructors, how type holes should behave since we now have nontrivial normalization semantics.
     \end{enumerate}
 \section{Not Issues-- but worth mentioning}
     \subsection*{}
@@ -125,7 +138,7 @@
             \]
             should also be derivable, where $\ConsistentSubKind[]{\SKind{\Int} \red{\rightarrow} \SKind{\Int}}{\SKind{\Int} \red{\rightarrow} \Type}$ \\
             With ``real" subkinding, this behavior is more serious. \\
-            From Aspinall (1995), using singleton types and $\mathtt{Nat \le Int}$ (``real" subtyping):
+            From Aspinall (1995), using singleton types and $\greentt{Nat} \le \greentt{Int}$ (``real" subtyping):
             \[
                 \TypeEquiv[]{\bluett{\lambda x\TypAsc Int.if~x \ge 0~then~x~else~2*x}}{\bluett{\lambda x\TypAsc Int.x}}[\greentt{Nat \rightarrow Int}]
             \]
@@ -139,4 +152,37 @@
 \newpage
     \includepdf[scale=0.9,pages=1,pagecommand={\section{Attachments}\subsection*{9-type-aliases marked up with preliminary declarative statics notes}Attachment 1}, offset=0 -2cm]{kind_judgements_statics.pdf}
     \includepdf[scale=0.9,pages=2-,pagecommand={Attachment 1}]{kind_judgements_statics.pdf}
+    \subsection*{Kind Analysis Soundness in 9-type-aliases}
+    Attachment 2 \\
+    If $\AnaKind{\typ}$, then $\WellFormedAtKind{\typ}$ \\
+    Without HOSingletons: \\
+    \begin{lstlisting}[mathescape=true]
+    base case $\typ = \typvar$:
+        (easy) case KAVar:
+            $\typvar\KndAssump\knd[_1]\in\TypVarCtx$ and $\ConsistentSubKind{\knd[_1]}{\knd}$
+            Thus by 43.2b, $\WellFormedAtKind{\typvar}[\knd[_1]]$
+            By 43.2d, $\WellFormedAtKind{\typvar}[\knd]$
+            Thus $\WellFormedAtKind{\typ}$
+        (hard) case KAASubsume:
+            $\SynKind{\typ}[\knd[_1]]$ and $\ConsistentSubKind{\knd[_1]}{\knd}$
+            By KSVar, $\typvar\KndAssump\knd[_2]\in\TypVarCtx$ and $\knd[_1] = \SKind{\typvar}$
+            Thus, $\ConsistentSubKind{\SKind{\typvar}}{\knd}$
+            wts $\WellFormedAtKind{\typvar}[\SKind{\typvar}]$, requires $\WellFormedAtKind{\typvar}[\Type]$
+            can show $\WellFormedAtKind{\typvar}[\Type]$ by exhaustive syntactic case + subsumption
+            ($\forall\knd[_2].\ConsistentSubKind{\knd[_2]}{\Type}$)
+    \end{lstlisting}
+    With HOSingletons: \\
+    \begin{lstlisting}[mathescape=true]
+    base case $\typ = \typvar$:
+        (easy) case KAVar:
+            same
+        (hard) case KAASubsume:
+            $\SynKind{\typ}[\knd[_1]]$ and $\ConsistentSubKind{\knd[_1]}{\knd}$
+            By KSVar, $\typvar\KndAssump\knd[_2]\in\TypVarCtx$ and $\knd[_1] = \SKind[{\knd[_2]}]{\typvar}$
+            Thus, $\ConsistentSubKind{\SKind[{\knd[_2]}]{\typvar}}{\knd}$
+            And, $\WellFormedAtKind{\typvar}[\knd[_2]]$
+            Thus $\WellFormedAtKind{\typvar}[\SKind[{\knd[_2]}]{\typvar}]$
+            Thus, $\WellFormedAtKind{\typvar}$
+            Thus, $\WellFormedAtKind{\typ}$
+    \end{lstlisting}
 \end{document}
