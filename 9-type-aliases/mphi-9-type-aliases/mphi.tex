@@ -115,8 +115,9 @@
             Thus, we do not need to add HOSingletons to the object language itself-- only to the metalangauge.
             HOSingletons should make the metatheory proofs more general, even without considering type constructors.
             See Attachment 2 for an example.
-            The question is how HOSingletons and holes should interact.
-            And with type constructors, how type holes should behave since we now have nontrivial normalization semantics.
+            The concern, as raised by cryus- is how HOSingletons and holes should interact;
+            And with type constructors, how dependent kinds and holes should interact (gradual dependent types?? Eremondi, Tanter, Garcia 2019??)
+            (just leaving breadcrumbs; haven't read more than 4 sentences)
     \end{enumerate}
 \section{Not Issues-- but worth mentioning}
     \subsection*{}
@@ -147,7 +148,7 @@
                 \TypeEquiv[]{\bluett{\lambda x\TypAsc Int.if~x \ge 0~then~x~else~2*x}}{\bluett{\lambda x\TypAsc Int.x}}[\greentt{Int \rightarrow Int}]
             \]
             should not. \\
-            I do not believe this more nuanced view of equality buys anything for us.
+            I do not believe this more nuanced view of equality buys us anything.
     \end{enumerate}
 \newpage
     \includepdf[scale=0.9,pages=1,pagecommand={\section{Attachments}\subsection*{9-type-aliases marked up with preliminary declarative statics notes}Attachment 1}, offset=0 -2cm]{kind_judgements_statics.pdf}
